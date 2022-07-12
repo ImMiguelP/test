@@ -1,0 +1,36 @@
+.spanStyle {
+    font-size: 14px;
+    color: #888;
+    padding-right: 3px;
+  }
+
+  .digits {
+    flex: 1 1 33.333%;
+    max-width: 33.333%;
+    appearance: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+
+  .operators {
+    flex: 1 1 0%;
+    appearance: none;
+    border: none;
+    outline: none;
+    color: black;
+    background-color: #f67f1a;
+    font-weight: 700;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: 0.4s;
+  };
+
+ 
