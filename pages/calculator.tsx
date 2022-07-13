@@ -1,4 +1,4 @@
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import styles from "../styles/Calculator.module.css";

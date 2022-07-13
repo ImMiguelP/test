@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  Hide,
   HStack,
   IconButton,
   Image,
@@ -14,14 +13,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import Weatherbox from "../components/weatherbox";
 
 function Weather() {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState([]);
-  const [currentWeather, setCurrentWeather] = useState(null);
+  const [currentWeather, setCurrentWeather] = useState<null | {
+    Temperature: any;
+    WeatherIcon: number;
+    WeatherText: string;
+  }>(null);
   const [cityName, setCityName] = useState("");
   const [dayTime, setDayTime] = useState<boolean | "">("");
   const [usesF, setUsesF] = useState(true);
@@ -31,7 +34,7 @@ function Weather() {
   const dayBg = "/day.jpg";
   const bg = "/bg.jpg";
   const key = "qqdzIjYjXIyK5JbWlDynAnZU2Te9UoRr";
-  console.log(date);
+  console.log(currentWeather);
   // Shift Data
   const shiftData = (id: []) => {
     const data = id;
@@ -147,7 +150,7 @@ function Weather() {
                 focusBorderColor={"#f67f1a"}
                 color={"black"}
                 placeholder={"Search for a City..."}
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(e: any) => setCity(e.target.value)}
               />
               <InputRightElement>
                 <IconButton
@@ -250,13 +253,7 @@ function Weather() {
                       Weather For Next 4 days
                     </Text>
                     {weatherData.map((data) => {
-                      return (
-                        <Weatherbox
-                          data={data}
-                          tempUnit={usesF}
-                          daytime={dayTime}
-                        />
-                      );
+                      return <Weatherbox data={data} tempUnit={usesF} />;
                     })}
                   </VStack>
                 </Grid>

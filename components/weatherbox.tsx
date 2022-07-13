@@ -1,13 +1,4 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  Hide,
-  HStack,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Divider, Grid, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import moment from "moment";
 import React from "react";
 

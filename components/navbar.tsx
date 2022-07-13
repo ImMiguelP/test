@@ -1,4 +1,4 @@
-import { HStack, Text, Image, Hide, Stack, Box } from "@chakra-ui/react";
+import { HStack, Text, Image, Hide, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
@@ -19,6 +19,7 @@ function Navbar() {
       >
         <Link href={"/"}>
           <Image
+            alt="navlogo"
             w={"44px"}
             objectFit={"contain"}
             cursor={"pointer"}
