@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/button": "^2.0.4",
     "@chakra-ui/icons": "^2.0.2",
-    "@chakra-ui/react": "^2.2.3",
+    "@chakra-ui/react": "2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/open-sans": "^4.5.10",
@@ -22,11 +23,14 @@
     "react": "18.2.0",
     "react-big-calendar": "^1.2.1",
     "react-datepicker": "^4.8.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "@types/node": "18.0.1",
     "@types/react": "18.0.14",
+    "@types/react-big-calendar": "^0.38.1",
+    "@types/react-datepicker": "^4.4.2",
     "@types/react-dom": "18.0.5",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",

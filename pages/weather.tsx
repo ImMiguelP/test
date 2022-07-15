@@ -1,10 +1,9 @@
+import { Button, IconButton } from "@chakra-ui/button";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Grid,
   HStack,
-  IconButton,
   Image,
   Input,
   InputGroup,
@@ -17,11 +16,17 @@ import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import Weatherbox from "../components/weatherbox";
 
+export type WeatherType = {
+  Date: string;
+  Day: { Icon: string; IconPhrase: string };
+  Temperature: { Maximum: { Value: number } };
+};
+
 function Weather() {
   const [city, setCity] = useState("");
-  const [weatherData, setWeatherData] = useState([]);
+  const [weatherData, setWeatherData] = useState<Array<WeatherType>>([]);
   const [currentWeather, setCurrentWeather] = useState<null | {
-    Temperature: any;
+    Temperature: { Imperial: { Value: number } };
     WeatherIcon: number;
     WeatherText: string;
   }>(null);
@@ -36,8 +41,7 @@ function Weather() {
   const key = "qqdzIjYjXIyK5JbWlDynAnZU2Te9UoRr";
   console.log(currentWeather);
   // Shift Data
-  const shiftData = (id: []) => {
-    const data = id;
+  const shiftData = (data: WeatherType[]) => {
     data.shift();
     return data;
   };
@@ -47,11 +51,10 @@ function Weather() {
     const baseUrl =
       "http://dataservice.accuweather.com/forecasts/v1/daily/5day/";
     const query = `${id}?apikey=${key}`;
-
     const response = await fetch(baseUrl + query);
     const weatherdata = await response.json();
     const data = Object.values(weatherdata)[1];
-    return data;
+    return data as WeatherType[];
   };
 
   //   Get Current Weather Info
@@ -92,33 +95,21 @@ function Weather() {
     setUsesF(true);
   };
 
-  const onSubmit = () => {
-    getCity(city)
-      .then((data) => {
-        return getForecast(data.Key);
-      })
-      .then((data) => {
-        return shiftData(data);
-      })
-      .then((data) => {
-        setWeatherData(data);
-      })
-      .catch((err) => console.log(err));
+  const onSubmit = async () => {
+    const data = await getCity(city);
+    const results = await getForecast(data.Key);
+    const shiftedData = shiftData(results);
+    setWeatherData(shiftedData);
 
-    getCity(city)
-      .then((data) => {
-        return getWeather(data.Key);
-      })
-      .then((data) => {
-        setCurrentWeather(data);
-        setDayTime(data.IsDayTime);
-        const [date, timeWithTimezone] =
-          data.LocalObservationDateTime.split("T");
-        const [time] = timeWithTimezone.split("-");
-        const strings = [date, time];
-        setDate(strings.join(" "));
-      })
-      .catch((err) => console.log(err));
+    const currentData = await getCity(city);
+    const currentResults = await getWeather(currentData.Key);
+    setCurrentWeather(currentResults);
+    setDayTime(currentResults.IsDayTime);
+    const [date, timeWithTimezone] =
+      currentResults.LocalObservationDateTime.split("T");
+    const [time] = timeWithTimezone.split("-");
+    const strings = [date, time];
+    setDate(strings.join(" "));
   };
 
   return (

@@ -77,6 +77,7 @@ function Calculator() {
         minHeight="100vh"
       >
         <Navbar />
+
         <VStack p={"16px"}>
           <Text fontSize={"2xl"} color={"#f67f1a"} fontWeight={"bold"} pb={5}>
             Calculator

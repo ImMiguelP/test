@@ -33,7 +33,7 @@ function Navbar() {
             <Link href="/weather">Weather</Link>
             <Link href="/calendar">Calendar</Link>
             <Link href="/calculator">Calculator</Link>
-            <Text>Weather</Text>
+            <Link href="/todo">Todo</Link>
             <Text>Weather</Text>
           </HStack>
         </Hide>

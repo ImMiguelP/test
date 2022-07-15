@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   HStack,
   Input,
   Modal,
@@ -25,6 +24,7 @@ import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "@chakra-ui/button";
 
 const locales = {
   "en-US": enUS,
@@ -38,13 +38,18 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const events: any = [];
+type calendarEvents = {
+  title: string;
+  start: string;
+  end: string;
+}[];
+
+const events: calendarEvents = [];
 
 function YourCalendar() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const addEvent = () => {
     setAllEvents([...allEvents, newEvent]);
@@ -88,6 +93,8 @@ function YourCalendar() {
               <ModalBody>
                 <Input
                   type={"text"}
+                  cursor={"pointer"}
+                  color="white"
                   placeholder={"Event Name"}
                   value={newEvent.title}
                   onChange={(e) =>
@@ -95,15 +102,23 @@ function YourCalendar() {
                   }
                 />
                 <HStack pt={"5"}>
-                  <DatePicker
+                  <Input
+                    as={DatePicker}
+                    cursor={"pointer"}
+                    color={"white"}
                     placeholderText="Start Date"
                     selected={newEvent.start}
-                    onChange={(start) => setNewEvent({ ...newEvent, start })}
+                    onChange={(start: any) =>
+                      setNewEvent({ ...newEvent, start })
+                    }
                   />
-                  <DatePicker
+                  <Input
+                    as={DatePicker}
+                    cursor={"pointer"}
+                    color={"white"}
                     placeholderText="End Date"
                     selected={newEvent.end}
-                    onChange={(end) => setNewEvent({ ...newEvent, end })}
+                    onChange={(end: any) => setNewEvent({ ...newEvent, end })}
                   />
                 </HStack>
               </ModalBody>
@@ -123,7 +138,7 @@ function YourCalendar() {
             endAccessor="end"
             style={{
               height: 600,
-              color: "#f67f1a",
+              color: "black",
               background: "white",
             }}
           />

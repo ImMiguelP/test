@@ -1,8 +1,15 @@
 import { Divider, Grid, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import moment from "moment";
 import React from "react";
+import { WeatherType } from "../pages/weather";
 
-function Weatherbox({ data, tempUnit }) {
+function Weatherbox({
+  data,
+  tempUnit,
+}: {
+  data: WeatherType;
+  tempUnit: boolean;
+}) {
   const temp = data.Temperature.Maximum.Value;
   const c = ((temp - 32) * 5) / 9;
   const celsius = Math.round(c * 10) / 10;

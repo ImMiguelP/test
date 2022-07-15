@@ -1,0 +1,13 @@
+
+.rbc-calendar {
+    min-height: 600px;
+  }
+  
+  .rbc-event {
+    background-color: #f67f1a !important;
+  }
+
+  .rbc-today {
+    background-color: #f6971a59 !important;
+  }
+
