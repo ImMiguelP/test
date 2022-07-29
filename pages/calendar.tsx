@@ -13,7 +13,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
@@ -24,7 +24,8 @@ import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const locales = {
   "en-US": enUS,
@@ -40,20 +41,54 @@ const localizer = dateFnsLocalizer({
 
 type calendarEvents = {
   title: string;
-  start: any;
-  end: any;
+  start: string;
+  end: string;
 }[];
 
 const events: calendarEvents = [];
 
 function YourCalendar() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState(events);
+  const [editingEvents, setEditingEvents] = useState(events);
+  const {
+    isOpen: isFirstModalOpen,
+    onOpen: onFirstModalOpen,
+    onClose: onFirstModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isSecondModalOpen,
+    onOpen: onSecondModalOpen,
+    onClose: onSecondModalClose,
+  } = useDisclosure();
+  console.log(editingEvents);
+
+  useEffect(() => {
+    setAllEvents(JSON.parse(localStorage.getItem("MyEvents")!));
+  }, []);
+
+  useEffect(() => {
+    if (allEvents.length === 0) return;
+    localStorage.setItem("MyEvents", JSON.stringify(allEvents));
+  }, [allEvents]);
 
   const addEvent = () => {
-    setAllEvents([...allEvents, newEvent]);
-    onClose();
+    const test = [...allEvents, newEvent];
+    setAllEvents(test);
+    localStorage.setItem("MyEvents", JSON.stringify(test));
+    onFirstModalClose();
+  };
+
+  const clearEvents = () => {
+    const empty: any = [];
+    setAllEvents(empty);
+    localStorage.setItem("MyEvents", JSON.stringify(empty));
+  };
+
+  const eventModal = (event: any) => {
+    onSecondModalOpen();
+    setEditingEvents(event);
+    console.log(event);
   };
 
   const bg = "/calbg.png";
@@ -78,12 +113,23 @@ function YourCalendar() {
             Your Calendar
           </Text>
           <VStack align={"end"} p={5}>
-            <Button onClick={onOpen} color={"black"} bg={"#f67f1a"}>
-              Add A New Event
-            </Button>
+            <HStack>
+              <IconButton
+                aria-label="clear events"
+                color={"#f67f1a"}
+                variant={"ghost"}
+                onClick={clearEvents}
+                icon={<DeleteIcon />}
+              >
+                Add A New Event
+              </IconButton>
+              <Button onClick={onFirstModalOpen} color={"black"} bg={"#f67f1a"}>
+                Add A New Event
+              </Button>
+            </HStack>
           </VStack>
           {/* Modal */}
-          <Modal isOpen={isOpen} onClose={onClose}>
+          <Modal isOpen={isFirstModalOpen} onClose={onFirstModalClose}>
             <ModalOverlay />
             <ModalContent bg={"#333333"}>
               <ModalHeader color={"white"}>
@@ -129,11 +175,11 @@ function YourCalendar() {
               </ModalFooter>
             </ModalContent>
           </Modal>
-
           {/* Calendar */}
           <Calendar
             localizer={localizer}
             events={allEvents}
+            onDoubleClickEvent={eventModal}
             startAccessor="start"
             endAccessor="end"
             style={{
@@ -142,6 +188,37 @@ function YourCalendar() {
               background: "white",
             }}
           />
+          <Modal isOpen={isSecondModalOpen} onClose={onSecondModalClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Edit Event</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Input />
+                <HStack pt={5} pb={5}>
+                  <Input
+                    as={DatePicker}
+                    cursor={"pointer"}
+                    color={"white"}
+                    placeholderText="Start Date"
+                  />
+                  <Input
+                    as={DatePicker}
+                    cursor={"pointer"}
+                    color={"white"}
+                    placeholderText="End Date"
+                  />
+                </HStack>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="red" mr={3} onClick={onSecondModalClose}>
+                  Delete Event
+                </Button>
+                <Button colorScheme="blue">Edit Event</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Box>
       </Box>
     </Box>

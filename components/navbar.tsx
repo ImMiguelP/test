@@ -6,9 +6,9 @@ function Navbar() {
   return (
     <Box
       w={"100%"}
-      bg={"rgba( 0, 0, 0, 0.15 )"}
-      boxShadow={"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )"}
-      backdropFilter={"blur( 10.5px )"}
+      // bg={"rgba( 0, 0, 0, 0.15 )"}
+      // boxShadow={"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )"}
+      // backdropFilter={"blur( 10.5px )"}
     >
       <HStack
         justify={"space-between"}
@@ -34,7 +34,6 @@ function Navbar() {
             <Link href="/calendar">Calendar</Link>
             <Link href="/calculator">Calculator</Link>
             <Link href="/todo">Todo</Link>
-            <Text>Weather</Text>
           </HStack>
         </Hide>
       </HStack>
