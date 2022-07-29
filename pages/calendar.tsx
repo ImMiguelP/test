@@ -41,8 +41,8 @@ const localizer = dateFnsLocalizer({
 
 type calendarEvents = {
   title: string;
-  start: string;
-  end: string;
+  start: Date | string;
+  end: Date | string;
 }[];
 
 const events: calendarEvents = [];
