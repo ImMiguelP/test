@@ -48,7 +48,11 @@ type calendarEvents = {
 const events: calendarEvents = [];
 
 function YourCalendar() {
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [newEvent, setNewEvent] = useState<any>({
+    title: "",
+    start: "",
+    end: "",
+  });
   const [allEvents, setAllEvents] = useState(events);
   const [editingEvents, setEditingEvents] = useState(events);
   const {
