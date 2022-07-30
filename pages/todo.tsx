@@ -32,7 +32,11 @@ function Todo() {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   useEffect(() => {
-    setTodos(JSON.parse(localStorage.getItem("MyTodos")!));
+    let todoItems = localStorage.getItem("MyTodos");
+
+    if (todoItems) {
+      setTodos(JSON.parse(todoItems));
+    }
   }, []);
 
   useEffect(() => {
@@ -126,7 +130,9 @@ function Todo() {
           </InputGroup>
           {/* Clear ToDo Button */}
           <Flex w={"100%"} pr={1.5} justifyContent={"space-between"}>
-            <Text>Todo's Left : {todos.length === 0 ? "0" : todos.length}</Text>
+            <Text>
+              Todo's Left : {todos?.length === 0 ? "0" : todos.length}
+            </Text>
             <IconButton
               size={"xs"}
               bg="#f67f1a"
