@@ -68,7 +68,11 @@ function YourCalendar() {
   console.log(editingEvents);
 
   useEffect(() => {
-    setAllEvents(JSON.parse(localStorage.getItem("MyEvents")!));
+    let calendarItems = localStorage.getItem("MyEvents");
+
+    if (calendarItems) {
+      setAllEvents(JSON.parse(calendarItems));
+    }
   }, []);
 
   useEffect(() => {

@@ -39,7 +39,7 @@ function Weather() {
   const dayBg = "/day.jpg";
   const bg = "/bg.jpg";
   const key = "qqdzIjYjXIyK5JbWlDynAnZU2Te9UoRr";
-  console.log(currentWeather);
+
   // Shift Data
   const shiftData = (data: WeatherType[]) => {
     data.shift();
@@ -142,6 +142,9 @@ function Weather() {
                 color={"black"}
                 placeholder={"Search for a City..."}
                 onChange={(e: any) => setCity(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") onSubmit();
+                }}
               />
               <InputRightElement>
                 <IconButton

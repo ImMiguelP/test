@@ -133,11 +133,12 @@ function Calculator() {
             </Box>
             <Box display={"flex"} flexWrap={"wrap"}>
               {createNumbers()}
-              <button onClick={() => updateCalc("0")} className={styles.digits}>
-                0
-              </button>
+
               <button onClick={() => updateCalc(".")} className={styles.digits}>
                 .
+              </button>
+              <button onClick={() => updateCalc("0")} className={styles.digits}>
+                0
               </button>
               <button onClick={total} className={styles.digits}>
                 =
