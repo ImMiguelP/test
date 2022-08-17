@@ -1,8 +1,33 @@
-import { HStack, Text, Image, Hide, Box } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import {
+  HStack,
+  Text,
+  Image,
+  Hide,
+  Box,
+  useDisclosure,
+  Button,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  Input,
+  DrawerFooter,
+  Stack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+} from "@chakra-ui/react";
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
 
 function Navbar() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef<HTMLButtonElement>(null);
   return (
     <Box
       w={"100%"}
@@ -35,6 +60,31 @@ function Navbar() {
             <Link href="/calculator">Calculator</Link>
             <Link href="/todo">Todo</Link>
           </HStack>
+        </Hide>
+        <Hide above="md">
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<HamburgerIcon />}
+              variant="outline"
+            />
+            <MenuList>
+              <MenuItem>
+                <Link href="/weather">Weather</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="/calendar">Calendar</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="/calculator">Calculator</Link>
+              </MenuItem>
+              <MenuItem>
+                {" "}
+                <Link href="/todo">Todo</Link>
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Hide>
       </HStack>
     </Box>

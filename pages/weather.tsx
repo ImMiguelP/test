@@ -8,11 +8,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { Autocomplete, TextField } from "@mui/material";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Weatherbox from "../components/weatherbox";
 
@@ -20,6 +22,10 @@ export type WeatherType = {
   Date: string;
   Day: { Icon: string; IconPhrase: string };
   Temperature: { Maximum: { Value: number } };
+};
+
+export type CitiesType = {
+  LocalizedName: string;
 };
 
 function Weather() {
@@ -39,6 +45,25 @@ function Weather() {
   const dayBg = "/day.jpg";
   const bg = "/bg.jpg";
   const key = "qqdzIjYjXIyK5JbWlDynAnZU2Te9UoRr";
+  const [citiesData, setCitiesData] = useState<Array<CitiesType>>([]);
+  console.log(citiesData);
+
+  // const getCities = async () => {
+  //   const baseUrl =
+  //     "http://dataservice.accuweather.com/locations/v1/topcities/50";
+  //   const query = `?apikey=${key}`;
+  //   const response = await fetch(baseUrl + query);
+  //   const data = await response.json();
+  //   setData(data);
+  // };
+
+  useEffect(() => {
+    fetch(
+      `http://dataservice.accuweather.com/locations/v1/topcities/50?apikey=${key}`
+    )
+      .then((response) => response.json())
+      .then((response) => setCitiesData(response));
+  }, []);
 
   // Shift Data
   const shiftData = (data: WeatherType[]) => {
@@ -132,6 +157,19 @@ function Weather() {
             <Text fontSize={"2xl"} color={"#f67f1a"} fontWeight={"bold"} pb={5}>
               Miguel Weather Report
             </Text>
+            {/* <Stack border={"1px"}>
+              <Autocomplete
+                disablePortal
+                id="Cities"
+                options={citiesData}
+                isOptionEqualToValue={(options, value) =>
+                  options.LocalizedName === value.LocalizedName
+                }
+                sx={{ width: 300, height: 300 }}
+                renderInput={(params) => <TextField {...params} label="city" />}
+              />
+            </Stack> */}
+
             <InputGroup>
               <Input
                 bg={"#fff"}
@@ -141,6 +179,7 @@ function Weather() {
                 focusBorderColor={"#f67f1a"}
                 color={"black"}
                 placeholder={"Search for a City..."}
+                _placeholder={{ color: "grey" }}
                 onChange={(e: any) => setCity(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") onSubmit();
